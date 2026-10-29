@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webtaxi - Driver</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-white flex flex-col items-center justify-center h-screen">
+    <div class="text-center p-6 bg-slate-800 rounded-xl shadow-lg max-w-sm w-full">
+        <h1 class="text-2xl font-bold mb-4 text-emerald-400">Webtaxi Active</h1>
+        <p id="status" class="text-sm text-slate-300 mb-6">ချိတ်ဆက်ရန် အသင့်ဖြစ်နေပါပြီ...</p>
+        
+        <!-- Hidden video/audio elements for streaming -->
+        <video id="localVideo" autoplay playsinline muted class="hidden"></video>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module" src="app.js"></script>
+</body>
+</html>
