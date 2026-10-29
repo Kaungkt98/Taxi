@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaxiViewer - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 text-slate-800 p-4">
+    <h1 class="text-xl font-bold mb-4 text-center">TaxiViewer Control Panel</h1>
+
+    <!-- Control Buttons (တစ်ပြိုင်နက်တည်း မပြဘဲ တစ်ခုချင်းစီ ရွေးရန်) -->
+    <div class="grid grid-cols-2 gap-3 mb-6">
+        <button onclick="requestStream('front-cam')" class="bg-blue-600 text-white p-3 rounded-lg shadow font-medium">ရှေ့ကင်မရာ ကြည့်ရန်</button>
+        <button onclick="requestStream('back-cam')" class="bg-blue-600 text-white p-3 rounded-lg shadow font-medium">နောက်ကင်မရာ ကြည့်ရန်</button>
+        <button onclick="requestStream('mic')" class="bg-emerald-600 text-white p-3 rounded-lg shadow font-medium">မိုက်ခရိုဖုန်း နားထောင်ရန်</button>
+        <button onclick="requestStream('screen')" class="bg-purple-600 text-white p-3 rounded-lg shadow font-medium">ဖုန်းစခရင် ကြည့်ရန်</button>
+        <button onclick="requestStream('location')" class="bg-amber-600 text-white p-3 rounded-lg shadow col-span-2 font-medium">ဖုန်းတည်နေရာ (Location) ကြည့်ရန်</button>
+    </div>
+
+    <!-- Display Screen / Video Output -->
+    <div class="bg-black rounded-xl overflow-hidden h-96 flex items-center justify-center relative">
+        <video id="remoteVideo" autoplay playsinline class="w-full h-full object-cover"></video>
+        <div id="infoBox" class="absolute bottom-2 left-2 bg-black/60 text-white p-2 rounded text-sm hidden"></div>
+    </div>
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>
