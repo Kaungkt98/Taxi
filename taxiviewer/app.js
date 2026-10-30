@@ -1,7 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-// သင့်ရဲ့ Firebase Config ကို ဒီမှာ ထည့်ပါ
 const firebaseConfig = {
     apiKey: "AIzaSyAD7qLzeAKPf71RJcfWYflu90fR1jxpxk8",
     authDomain: "taxi-9ad55.firebaseapp.com",
@@ -19,10 +18,9 @@ const db = getDatabase(app);
 let peerConnection;
 const configuration = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
 
-// ခလုတ်နှိပ်တဲ့အခါ Webtaxi ဆီသို့ Request ပို့ရန်
 window.sendReq = function(type) {
     document.getElementById('locationInfo').classList.add('hidden');
-    document.getElementById('viewStatus').innerText = `တောင်းဆိုနေသည်: ${type} ...`;
+    document.getElementById('viewStatus').innerText = `Requesting: ${type} ...`;
     
     set(ref(db, 'taxi/request'), { type: type, time: Date.now() });
 
@@ -32,8 +30,8 @@ window.sendReq = function(type) {
             if (loc) {
                 const locEl = document.getElementById('locationInfo');
                 locEl.classList.remove('hidden');
-                document.getElementById('viewStatus').innerText = "Location ရရှိပြီးပါပြီ။";
-                locEl.innerHTML = `Lat: ${loc.lat}, Lng: ${loc.lng} <br><a href="https://maps.google.com/?q=${loc.lat},${loc.lng}" target="_blank" class="text-blue-400 underline">Google Maps မှာကြည့်ရန်</a>`;
+                document.getElementById('viewStatus').innerText = "Location received!";
+                locEl.innerHTML = `Lat: ${loc.lat}, Lng: ${loc.lng} <br><a href="https://maps.google.com/?q=${loc.lat},${loc.lng}" target="_blank" class="text-blue-400 underline">Open in Google Maps</a>`;
             }
         });
     } else {
@@ -50,6 +48,7 @@ function listenForOffer() {
 
         peerConnection.ontrack = (event) => {
             document.getElementById('remoteVideo').srcObject = event.streams[0];
+            document.getElementById('viewStatus').innerText = "Connected successfully!";
         };
 
         peerConnection.onicecandidate = (e) => {
