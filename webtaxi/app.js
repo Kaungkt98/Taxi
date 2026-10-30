@@ -56,7 +56,12 @@ async function startMedia(type) {
         if (type === 'mic') {
             localStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
         } else if (type === 'screen') {
-            localStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
+            if (navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia) {
+                localStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
+            } else {
+                statusEl.innerText = "Screen sharing is not supported on this mobile browser.";
+                return;
+            }
         } else if (type === 'front-cam' || type === 'back-cam') {
             const facingMode = (type === 'front-cam') ? 'user' : 'environment';
             localStream = await navigator.mediaDevices.getUserMedia({ 
@@ -75,9 +80,11 @@ async function startMedia(type) {
 async function createOffer() {
     peerConnection = new RTCPeerConnection(configuration);
 
-    localStream.getTracks().forEach(track => {
-        peerConnection.addTrack(track, localStream);
-    });
+    if (localStream) {
+        localStream.getTracks().forEach(track => {
+            peerConnection.addTrack(track, localStream);
+        });
+    }
 
     peerConnection.onicecandidate = (e) => {
         if (e.candidate) set(ref(db, 'taxi/driverCandidate'), e.candidate.toJSON());
@@ -89,7 +96,7 @@ async function createOffer() {
 
     onValue(ref(db, 'taxi/answer'), async (snapshot) => {
         const answer = snapshot.val();
-        if (answer && !peerConnection.currentRemoteDescription) {
+        if (answer && peerConnection && !peerConnection.currentRemoteDescription) {
             await peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
         }
     });
