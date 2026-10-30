@@ -9,12 +9,20 @@
 <body class="bg-slate-100 text-slate-800 p-4 max-w-md mx-auto">
     <h1 class="text-xl font-bold text-center mb-4">TaxiViewer Control Panel</h1>
 
-    <!-- Control Buttons -->
+    <!-- Control Buttons with Stop Buttons -->
     <div class="grid grid-cols-2 gap-2 mb-4">
         <button onclick="sendReq('front-cam')" class="bg-blue-600 text-white p-3 rounded-lg text-sm font-semibold">ရှေ့ Camera</button>
+        <button onclick="stopStream()" class="bg-red-600 text-white p-3 rounded-lg text-sm font-semibold">ရှေ့/နောက် ပိတ်ရန်</button>
+
         <button onclick="sendReq('back-cam')" class="bg-blue-600 text-white p-3 rounded-lg text-sm font-semibold">နောက် Camera</button>
+        <button onclick="stopStream()" class="bg-red-600 text-white p-3 rounded-lg text-sm font-semibold">ကင်မရာ ပိတ်ရန်</button>
+
         <button onclick="sendReq('mic')" class="bg-emerald-600 text-white p-3 rounded-lg text-sm font-semibold">Mic စစ်ဆေးရန်</button>
+        <button onclick="stopStream()" class="bg-red-600 text-white p-3 rounded-lg text-sm font-semibold">Mic ပိတ်ရန်</button>
+
         <button onclick="sendReq('screen')" class="bg-purple-600 text-white p-3 rounded-lg text-sm font-semibold">Screen ကြည့်ရန်</button>
+        <button onclick="stopStream()" class="bg-red-600 text-white p-3 rounded-lg text-sm font-semibold">Screen ပိတ်ရန်</button>
+
         <button onclick="sendReq('location')" class="bg-amber-600 text-white p-3 rounded-lg text-sm font-semibold col-span-2">Location ကြည့်ရန်</button>
     </div>
 
