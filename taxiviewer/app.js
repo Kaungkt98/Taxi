@@ -22,6 +22,8 @@ const configuration = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] }
 // ခလုတ်နှိပ်တဲ့အခါ Webtaxi ဆီသို့ Request ပို့ရန်
 window.sendReq = function(type) {
     document.getElementById('locationInfo').classList.add('hidden');
+    document.getElementById('viewStatus').innerText = `တောင်းဆိုနေသည်: ${type} ...`;
+    
     set(ref(db, 'taxi/request'), { type: type, time: Date.now() });
 
     if (type === 'location') {
@@ -30,6 +32,7 @@ window.sendReq = function(type) {
             if (loc) {
                 const locEl = document.getElementById('locationInfo');
                 locEl.classList.remove('hidden');
+                document.getElementById('viewStatus').innerText = "Location ရရှိပြီးပါပြီ။";
                 locEl.innerHTML = `Lat: ${loc.lat}, Lng: ${loc.lng} <br><a href="https://maps.google.com/?q=${loc.lat},${loc.lng}" target="_blank" class="text-blue-400 underline">Google Maps မှာကြည့်ရန်</a>`;
             }
         });
