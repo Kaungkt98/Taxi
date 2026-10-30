@@ -26,6 +26,13 @@ onValue(ref(db, 'taxi/request'), async (snapshot) => {
     const req = snapshot.val();
     if (!req) return;
 
+    // TaxiViewer ဘက်က Stop ခလုတ်နှိပ်လိုက်လျှင်
+    if (req.type === 'stop') {
+        stopLocalMedia();
+        statusEl.innerText = "Stream stopped by viewer.";
+        return;
+    }
+
     statusEl.innerText = `Request received: ${req.type}`;
 
     if (req.type === 'location') {
@@ -35,6 +42,22 @@ onValue(ref(db, 'taxi/request'), async (snapshot) => {
         await createOffer();
     }
 });
+
+// Camera / Mic များကို အပြည့်အစုံ ပြန်ပိတ်ပေးမည့် function
+function stopLocalMedia() {
+    if (localStream) {
+        localStream.getTracks().forEach(track => track.stop());
+        localStream = null;
+    }
+    const localVideo = document.getElementById('localVideo');
+    if (localVideo) {
+        localVideo.srcObject = null;
+    }
+    if (peerConnection) {
+        peerConnection.close();
+        peerConnection = null;
+    }
+}
 
 function sendLocation() {
     if (navigator.geolocation) {
@@ -53,6 +76,9 @@ function sendLocation() {
 
 async function startMedia(type) {
     try {
+        // အဟောင်း ပိတ်ပြီးမှ အသစ်ဖွင့်ရန်
+        stopLocalMedia();
+
         if (type === 'mic') {
             localStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
         } else if (type === 'screen') {
