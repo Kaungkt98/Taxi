@@ -76,7 +76,6 @@ function sendLocation() {
 
 async function startMedia(type) {
     try {
-        // အဟောင်း ပိတ်ပြီးမှ အသစ်ဖွင့်ရန်
         stopLocalMedia();
 
         if (type === 'mic') {
