@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+import { getDatabase, ref, set, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyAD7qLzeAKPf71RJcfWYflu90fR1jxpxk8",
@@ -39,10 +39,38 @@ window.sendReq = function(type) {
     }
 };
 
+// Stream ပြန်ပိတ်ရန် function
+window.stopStream = function() {
+    // Video stream ကို ဖြတ်တောက်ခြင်း
+    const videoEl = document.getElementById('remoteVideo');
+    if (videoEl.srcObject) {
+        videoEl.srcObject.getTracks().forEach(track => track.stop());
+        videoEl.srcObject = null;
+    }
+
+    // PeerConnection ပိတ်ခြင်း
+    if (peerConnection) {
+        peerConnection.close();
+        peerConnection = null;
+    }
+
+    // Firebase ရှိ request နဲ့ offer များကို ဖျက်ဆီးခြင်းဖြင့် Webtaxi ဘက်ကို အချက်ပြခြင်း
+    set(ref(db, 'taxi/request'), { type: 'stop', time: Date.now() });
+    remove(ref(db, 'taxi/offer'));
+    remove(ref(db, 'taxi/answer'));
+
+    document.getElementById('viewStatus').innerText = "Stream stopped.";
+    document.getElementById('locationInfo').classList.add('hidden');
+};
+
 function listenForOffer() {
     onValue(ref(db, 'taxi/offer'), async (snapshot) => {
         const offer = snapshot.val();
         if (!offer) return;
+
+        if (peerConnection) {
+            peerConnection.close();
+        }
 
         peerConnection = new RTCPeerConnection(configuration);
 
