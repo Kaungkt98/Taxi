@@ -10,12 +10,12 @@
     <h1 class="text-xl font-bold mb-4 text-center">TaxiViewer Control Panel</h1>
 
     <!-- Control Buttons (တစ်ပြိုင်နက်တည်း မပြဘဲ တစ်ခုချင်းစီ ရွေးရန်) -->
-    <div class="grid grid-cols-2 gap-3 mb-6">
-        <button onclick="requestStream('front-cam')" class="bg-blue-600 text-white p-3 rounded-lg shadow font-medium">ရှေ့ကင်မရာ ကြည့်ရန်</button>
-        <button onclick="requestStream('back-cam')" class="bg-blue-600 text-white p-3 rounded-lg shadow font-medium">နောက်ကင်မရာ ကြည့်ရန်</button>
-        <button onclick="requestStream('mic')" class="bg-emerald-600 text-white p-3 rounded-lg shadow font-medium">မိုက်ခရိုဖုန်း နားထောင်ရန်</button>
-        <button onclick="requestStream('screen')" class="bg-purple-600 text-white p-3 rounded-lg shadow font-medium">ဖုန်းစခရင် ကြည့်ရန်</button>
-        <button onclick="requestStream('location')" class="bg-amber-600 text-white p-3 rounded-lg shadow col-span-2 font-medium">ဖုန်းတည်နေရာ (Location) ကြည့်ရန်</button>
+    <div class="grid grid-cols-2 gap-2 mb-4">
+        <button onclick="sendReq('front-cam')" class="bg-blue-600 text-white p-3 rounded-lg text-sm font-semibold">ရှေ့ Camera</button>
+        <button onclick="sendReq('back-cam')" class="bg-blue-600 text-white p-3 rounded-lg text-sm font-semibold">နောက် Camera</button>
+        <button onclick="sendReq('mic')" class="bg-emerald-600 text-white p-3 rounded-lg text-sm font-semibold">Mic စားကြည့်ရန်</button>
+        <button onclick="sendReq('screen')" class="bg-purple-600 text-white p-3 rounded-lg text-sm font-semibold">Screen ကြည့်ရန်</button>
+        <button onclick="sendReq('location')" class="bg-amber-600 text-white p-3 rounded-lg text-sm font-semibold col-span-2">Location ကြည့်ရန်</button>
     </div>
 
     <!-- Display Screen / Video Output -->
